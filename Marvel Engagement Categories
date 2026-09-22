@@ -1,0 +1,26 @@
+WITH Platform_Avg AS (
+SELECT actor, 
+character, 
+platform, 
+engagement_rate, 
+ROUND(AVG(engagement_rate) OVER (PARTITION BY platform),2) as Platform_Engagement_Avg
+FROM marvel_avengers
+),
+
+Engage_Avg AS (
+SELECT actor, 
+character, 
+platform, 
+engagement_rate/platform_engagement_avg-1 as Engage_Vs_Platform_Avg,
+engagement_rate,
+platform_engagement_avg
+FROM Platform_Avg)
+
+SELECT actor, 
+character,
+platform, 
+CASE 
+  WHEN Engage_Vs_Platform_Avg > 0 THEN 'Outperform' ELSE 'Underperform' END AS "Status",
+Engage_Vs_Platform_Avg,
+Platform_Engagement_Avg
+FROM Engage_Avg;

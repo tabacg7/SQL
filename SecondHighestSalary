@@ -1,0 +1,8 @@
+WITH MaxCTE AS (
+Select MAX(salary) as Max
+FROM employee)
+
+SELECT MAX(salary) as Second_Highest
+FROM employee
+WHERE salary < ( SELECT Max
+FROM MaxCTE);

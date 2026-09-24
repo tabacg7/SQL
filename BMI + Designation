@@ -1,0 +1,11 @@
+SELECT patient_id, 
+weight, 
+height, 
+ROUND(weight/(POWER(height/100.0,2)),2) as BMI,
+  (CASE 
+      WHEN weight/(POWER(height/100.0,2)) >= 30 THEN
+          1
+      ELSE
+          0
+      END) AS isObese
+FROM patients;

@@ -1,0 +1,8 @@
+SELECT 
+CONCAT(first_name,' ',last_name),
+birth_date,
+ROUND(height/30.48,1) AS Height_Feet, 
+ROUND(weight/2.205,0) as Weight_Pounds,
+CASE
+	WHEN gender = 'M' THEN 'Male' ELSE 'Female' END AS Gender_Type
+FROM patients;

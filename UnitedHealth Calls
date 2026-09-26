@@ -1,0 +1,12 @@
+WITH Non_Categorized_View AS (
+SELECT COUNT(case_id) as Non_Categorized
+FROM callers
+WHERE call_category = 'n/a' OR call_category IS NULL)
+
+SELECT 
+ROUND(100.0 * Non_Categorized / (SELECT COUNT(*) FROM callers),1) as Percentage_of_NonCateg_Calls
+FROM Non_Categorized_View;
+
+
+percentage_of_noncateg_calls
+5.5

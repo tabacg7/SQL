@@ -1,0 +1,14 @@
+WITH Lag AS (
+SELECT LAG(call_date,1) OVER (PARTITION BY policy_holder_id ORDER BY call_date) as Lag, 
+ ROUND(EXTRACT(EPOCH FROM call_date 
+    - LAG(call_date) OVER (
+  	  PARTITION BY policy_holder_id ORDER BY call_date)
+  )/(24*60*60),2) as LastCall,
+* 
+FROM callers)
+
+SELECT count(distinct policy_holder_id)
+FROM Lag 
+WHERE lastcall <=7;
+
+16 Patients

@@ -1,0 +1,19 @@
+WITH Shape AS (
+SELECT *, 
+EXTRACT(DAY FROM transaction_date) as Day, 
+LAG(EXTRACT(DAY FROM transaction_date)) OVER (PARTITION BY user_id ORDER BY transaction_date) as Lag,
+LEAD(EXTRACT(DAY FROM transaction_date)) OVER (PARTITION BY user_id ORDER BY transaction_date) as Lead
+FROM transactions)
+
+SELECT DISTINCT user_id
+FROM Shape
+WHERE 
+lag = Day - 1 
+OR 
+Lead = Day +1
+ORDER BY user_id;
+
+OUTPUT
+user_id
+2
+5
